@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# @file tmc_wrapper.sh
+# Wrapper to extend functionality of existing tmc cli
+# @author Alister Lewis-Bowen <alister@lewis-bowen.org>
+
+[[ -n $DEBUG ]] && set -x
+set -eou pipefail
+
+source tmc_wrapper_lcm_credential.sh 
+if [ -z "$CLI_WRAPPER_PARSER" ]; then
+    echo "Set the CLI_WRAPPER_PARSER env var to reference the filename of the parser script."
+    exit
+fi
+
+# Parser script that offers command overrides
+# shellcheck disable=SC1090
+source "$CLI_WRAPPER_PARSER"
+
+if [ -z "$CLI_TO_WRAP" ]; then
+    echo "Set the CLI_TO_WRAP env variable to reference the name of the CLI you want to wrap."
+    exit
+fi
+
+if ! alias | grep -q "$CLI_TO_WRAP"; then
+    echo "Run the following alias to complete the set up of CLI wrapper"
+    echo "  alias $CLI_TO_WRAP='$PWD/cli_wrapper'"
+    exit
+fi
+
+# Pass through other commands...
+$CLI_TO_WRAP "$@"
