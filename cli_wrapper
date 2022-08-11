@@ -6,8 +6,9 @@
 [[ -n $DEBUG ]] && set -x
 set -eou pipefail
 
-source tmc_wrapper_lcm_credential.sh 
-if [ -z "$CLI_WRAPPER_PARSER" ]; then
+# CLI_WRAPPER_PARSER=${1:-examples/git_example_wrapper.sh}
+
+if [ -z ${CLI_WRAPPER_PARSER+x} ]; then
     echo "Set the CLI_WRAPPER_PARSER env var to reference the filename of the parser script."
     exit
 fi
@@ -21,11 +22,11 @@ if [ -z "$CLI_TO_WRAP" ]; then
     exit
 fi
 
-if ! alias | grep -q "$CLI_TO_WRAP"; then
-    echo "Run the following alias to complete the set up of CLI wrapper"
-    echo "  alias $CLI_TO_WRAP='$PWD/cli_wrapper'"
-    exit
-fi
+# if ! alias | grep -q "$CLI_TO_WRAP"; then
+#     echo "Run the following alias to complete the set up of CLI wrapper"
+#     echo "  alias $CLI_TO_WRAP='$PWD/cli_wrapper'"
+#     exit
+# fi
 
 # Pass through other commands...
 $CLI_TO_WRAP "$@"
