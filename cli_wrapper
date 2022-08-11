@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
-# @file tmc_wrapper.sh
+# @file cli_wrapper.sh
 # Wrapper to extend functionality of existing tmc cli
 # @author Alister Lewis-Bowen <alister@lewis-bowen.org>
 
 [[ -n $DEBUG ]] && set -x
 set -eou pipefail
-
-# CLI_WRAPPER_PARSER=${1:-examples/git_example_wrapper.sh}
 
 if [ -z ${CLI_WRAPPER_PARSER+x} ]; then
     echo "Set the CLI_WRAPPER_PARSER env var to reference the filename of the parser script."
